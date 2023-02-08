@@ -1,3 +1,5 @@
+import org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation
+
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
@@ -30,72 +32,160 @@ android {
     }
 }
 
+def basicPath = "/src/main/res/values/values.xml" // 以这个为基准
+// 需要对其的路径
+def res = [
+        "/src/main/res/values-es/values.xml",
+        "/src/main/res/values-ja/values.xml",
+        "/src/main/res/values-ko/values.xml"
+]
+
 def dirPath(String path) {
     return projectDir.absolutePath + path
 }
 
-// https://blog.csdn.net/Al_assad/article/details/78044539
-task helloworld() {
-    def basicPath = "/src/main/res/values/values.xml" // 以这个为基准
-    // 需要对其的路径
-    def res = [
-            "/src/main/res/values-es/values.xml",
-            "/src/main/res/values-ja/values.xml",
-            "/src/main/res/values-ko/values.xml"
-    ]
+static def getValueName(Node node) {
+    return node.attributes().get("name")
+}
 
+// Groovy基本使用（6）：XML 处理
+// https://blog.csdn.net/Al_assad/article/details/78044539
+task sortLanguageValues() {
     Node basicNode = new XmlParser().parse(file(dirPath(basicPath)))
     // 找到所有的String node
-    NodeList nodeList = (NodeList) basicNode.value()
-    ArrayList stringArr = []
-    ArrayList arrayArr = []
+    NodeList basicNodeList = (NodeList) basicNode.value()
+    HashMap<String, Node> mapString = new HashMap<>()
+    HashMap<String, Node> mapArray = new HashMap<>()
     // array string
-    for (i in 0..<nodeList.size()) {
-        Node node = (Node) nodeList.get(i)
+    for (i in 0..<basicNodeList.size()) {
+        Node node = (Node) basicNodeList.get(i)
 //        println(node) println(node.attributes()) println(node.attributes().get("name")) println(node.value())
 //        println("node.name=${node.name()} , node.attributes.get("name"")
         println(node.name())
         println(node.value())
         if ("string" == node.name()) {
-            stringArr.add(node)
+            mapString.put(getValueName(node), node)
         } else if ("array" == node.name()) {
-            //arrayArr.add(node.name())
+            mapArray.put(getValueName(node), node)
         }
     }
-    Comparator comparator = new Comparator() {
-        @Override
-        int compare(Object o1, Object o2) {
-            String n1 = ((Node) o1).attributes().get("name")
-            String n2 = ((Node) o2).attributes().get("name")
-            return n1.compareToIgnoreCase(n2)
-        }
-    }
-    stringArr.sort(comparator)
-    arrayArr.sort(comparator)
-    println(stringArr)
-    println(arrayArr)
-
-//    // 收集所有需要对齐的node
-//    HashMap<String, Node> map = new HashMap<>()
-//    for (i in 0..<res.size()) {
-//        def path = res[i]
-//        println(path)
-//        Node xml = new XmlParser().parse(file(dirPath(path)))
-//        println(xml)
-//        map.put(path, xml)
-//    }
-//
-//    // 读取所有的string
-//    map.each { element ->
-//        String path = element.key
-//        NodeList nodeList = (NodeList) element.value.value()
-//        for (i in 0..<nodeList.size()) {
-//            Node node = (Node) nodeList.get(i)
-//            println(node)
+//    Comparator comparator = new Comparator() {
+//        @Override
+//        int compare(Object o1, Object o2) {
+//            String n1 = ((Node) o1).attributes().get("name")
+//            String n2 = ((Node) o2).attributes().get("name")
+//            return n1.compareToIgnoreCase(n2)
 //        }
 //    }
-//
-//    // 对齐所有的array
+//    stringArr.sort(comparator)
+//    arrayArr.sort(comparator)
+//    println(stringArr)
+//    println(arrayArr)
+
+    // 收集所有需要对齐的node, 剩下要对齐的
+    HashMap<String, Node> map = new HashMap<>()
+    for (i in 0..<res.size()) {
+        def path = res[i]
+        println(path)
+        Node xml = new XmlParser().parse(file(dirPath(path)))
+        // println(xml)
+        map.put(path, xml)
+    }
+
+    HashMap<String, Node> mapOtherString = new HashMap<>()
+    HashMap<String, Node> mapOtherArray = new HashMap<>()
+    // 读取所有的string
+    map.each { element ->
+        mapOtherString.clear()
+        mapOtherArray.clear()
+
+        String path = element.key
+        NodeList nodeList = (NodeList) element.value.value()
+        for (i in 0..<nodeList.size()) {
+            Node node = (Node) nodeList.get(i)
+            if ("string" == node.name()) {
+                mapOtherString.put(getValueName(node), node)
+            } else if ("array" == node.name()) {
+                mapOtherArray.put(getValueName(node), node)
+            }
+        }
+
+        Node resNode = createResourceNode()
+        // 比较
+        mapString.keySet().each {key ->
+            Node n = mapOtherString.get(key)
+            if (n != null) {
+                resNode.children().add(n)
+            } else {
+                def msg = "未适配 key-> $key  路径:${dirPath(path)}"
+                //"throw new IllegalArgumentException(msg)
+                println(msg)
+            }
+        }
+        mapArray.keySet().each { key->
+            Node n = mapOtherArray.get(key)
+            if (n != null) {
+                resNode.children().add(n)
+            } else {
+                def msg = "未适配 key-> $key  路径:${dirPath(path)}"
+                //"throw new IllegalArgumentException(msg)
+                println(msg)
+            }
+        }
+        writeNode2Local(resNode, new File(dirPath(path)))
+    }
+
+
+    basicNode.children().clear()
+    basicNode.children().addAll(mapString.values())
+    basicNode.children().addAll(mapArray.values())
+    writeNode2Local(basicNode, new File(dirPath(basicPath)))
+}
+
+static def createNode(String key, String value) {
+    return new Node(null, "string", ["name": "$key"], "$value")
+}
+
+static def createResourceNode() {
+    return new Node(null, "resources")
+}
+
+
+// 写入到本地
+static def writeNode2Local(Node node, File xmlFile) {
+    xmlFile.parentFile.mkdirs()
+
+    sortNodeChildren(node) // 都排序
+    // 将XML写入本地
+    FileWriter fileWriter = new FileWriter(xmlFile)
+    XmlNodePrinter nodePrinter = new XmlNodePrinter(new PrintWriter(fileWriter))
+    nodePrinter.setPreserveWhitespace(true)
+    nodePrinter.print(node)
+}
+
+// Node中的chiren进行排序
+static def sortNodeChildren(Node node) {
+    assert node instanceof Node
+    assert node.children() instanceof NodeList
+    node.children().sort(new Comparator() {
+        @Override
+        int compare(Object o1, Object o2) {
+            String key1 = ""
+            String key2 = ""
+            if(o1 instanceof Node) {
+                key1 = getNodeKey((Node)o1)
+            }
+            if(o2 instanceof Node) {
+                key2 = getNodeKey((Node)o2)
+            }
+            return DefaultTypeTransformation.compareTo(key1, key2)
+        }
+    })
+}
+
+static def getNodeKey(Node node) {
+    def key = node.attributes().get('name')
+    return key
 }
 
 dependencies {
