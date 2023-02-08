@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="out_popup_battery_title">
+        <item>XXX 앱이 배터리를 소모하고 있습니다</item>
+        <item>백그라운드 앱을 최적화하여 배터리 노후화를 늦추십시오</item>
+        <item>배터리가 빠르게 소모되고, XXX개의 앱이 백그라운드에 있습니다.</item>
+        <item>배터리를 최적화하여 배터리 수명 늘리기</item>
+    </array>
+    <array name="out_popup_boost_title">
+        <item>백그라운드에서 실행 중인 XXX개의 앱</item>
+        <item>XXX 앱이 휴대전화의 실행 속도에 영향을 미치고 있습니다</item>
+        <item>RAM이 XX%에 도달하고 전화 속도가 느림</item>
+        <item>단 한 번의 클릭으로 휴대전화 속도 향상</item>
+        <item>백그라운드에서 실행 중인 앱으로 인해 전화 속도가 느려짐</item><!--兜底-->
+    </array>
+    <array name="out_popup_clean_title">
+        <item>Found XXX 정크 파일</item>
+        <item>XXX에 대한 휴대폰 슬림화</item>
+        <item>수많은 중복 파일 발견</item>
+        <item>최적화된 메모리로 휴대폰 온도 안정화</item> <!--兜底-->
+    </array>
+    <array name="out_popup_security_title">
+        <item>마지막 보안 스캔 이후 XXX일</item>
+        <item>정기적으로 바이러스 검사, 개인 정보 보호 및 자산 보안</item>
+        <item>바이러스를 스캔하여 휴대전화를 보호하세요</item>
+    </array>
+    <array name="out_popup_temperature_title">
+        <item>온도가 XXX에 도달했습니다. 너무 높습니다.</item>
+        <item>불안정한 휴대전화 온도가 감지됨</item>
+        <item>전화가 오랫동안 작동했습니다. 식히자</item>
+        <item>과도한 휴대전화 온도는 성능에 영향을 미칩니다</item><!--兜底-->
+    </array>
+    <string name="_optimizing">최적화 중…</string>
+    <string name="advisable">청소 권장</string>
+    <string name="album">앨범</string>
+    <string name="all_safe">이미 안전함</string>
+    <string name="android_d_permission_guide">활성화하려면 여기를 클릭하세요.</string>
+    <string name="android_r_permission_guide">클릭 한 번으로 스위치 켜기</string>
+    <string name="antivirus">안티바이러스</string>
+    <string name="apk">APK</string>
+    <string name="apk_broken">Apk 깨짐</string>
+    <string name="apk_clean">APK 정리</string>
+    <string name="apk_files">APK 파일</string>
+    <string name="apk_installed">Apk 설치됨</string>
+    <string name="apk_not_installed">apk가 설치되지 않았습니다</string>
+    <string name="app_list_permissions_button_text">확인</string>
+    <string name="app_list_permissions_describe_sub_title">지금 최적화하려면 "Bravo Booster" 저장소 권한을 부여하세요.</string>
+    <string name="app_list_permissions_describe_title">잠재적으로 위험한 위치</string>
+    <string name="app_list_permissions_sub_title_two">권한을 활성화하려면 시스템 페이지로 이동하세요</string>
+    <string name="app_scan_title_one">정크 파일 검사 중…</string>
+    <string name="app_scan_title_two">위치를 찾는 중…</string>
+    <string name="apps_delay_phone">백그라운드에서 실행 중인 %1$s 개의 앱</string>
+    <string name="apps_in_background">백그라운드에 있는 %1$s 앱</string>
+    <string name="apps_will_be_uninstalled">%1$s 개의 앱이 제거됩니다</string>
+    <string name="archive">아카이브</string>
+    <string name="are_you_sure_you_want_to_leave">정말 떠나시겠습니까?</string>
+    <string name="audio">오디오</string>
+    <string name="battery_save_progress_opti_sub_title">안전 온도</string>
+    <string name="battery_saver">배터리 세이버</string>
+    <string name="battery_scanning">배터리 사용량 확인 중</string>
+    <string name="batterysave_display_scanning">전화가 과열되었습니다</string>
+    <string name="bigfile_album">사진 앨범</string>
+    <string name="bigfile_from_album">사진 앨범에서</string>
+    <string name="bigfile_other">기타</string>
+    <string name="boost">부스트</string>
+    <string name="boost1">부스트</string>
+    <string name="boost_anim_progress_opti_sub_title">안전한 온도</string>
+    <string name="boost_display_scanning">휴대전화 사용량 확인 중..</string>
+    <string name="boost_success_desc">깊은 부스트를 위해 하단 목록을 클릭하십시오.</string>
+    <string name="boost_up">부스트 업</string>
+    <string name="cache_file">캐시 파일</string>
+    <string name="camera_image">카메라 이미지</string>
+    <string name="camera_video">카메라 비디오</string>
+    <string name="cancel">취소</string>
+    <string name="clean">청소</string>
+    <string name="clean_button_text">청소</string>
+    <string name="clean_now">지금 청소</string>
+    <string name="cleaning_">청소 중…</string>
+    <string name="cleaning_recommended">청소 추천</string>
+    <string name="current_app_version">현재 %1$s 버전: %2$s</string>
+    <string name="deep">딥</string>
+    <string name="default_abbrev">캐시</string>
+    <string name="delay_m_s">지연(M/s)</string>
+    <string name="detect">감지</string>
+    <string name="detecting">감지 중</string>
+    <string name="dialog_all_file_access_permission_function">모든 파일 액세스</string>
+    <string name="dialog_permission_content">스위치를 켜서 %1$s를 활성화하세요.</string>
+    <string name="dialog_storage_permission">저장소</string>
+    <string name="dialog_storage_permission_desc">모든 파일 액세스 권한이 없으면 정크 파일 클리너가 정상적으로 작동하지 않습니다.지금 허가하시겠습니까?</string>
+    <string name="dialog_storage_permission_function">모든 파일 액세스</string>
+    <string name="dialog_wifi_got_it">알았다</string>
+    <string name="document">문서</string>
+    <string name="document_permission_guide">활성화하려면 여기를 클릭하세요.</string>
+    <string name="download">다운로드</string>
+    <string name="download_mb_s">다운로드(MB/s)</string>
+    <string name="duplicate_apk">중복 APK</string>
+    <string name="duplicate_audio">중복 오디오</string>
+    <string name="duplicate_document">중복 문서</string>
+    <string name="duplicate_file">중복 파일</string>
+    <string name="duplicate_picture">중복 사진</string>
+    <string name="duplicate_video">동영상 중복</string>
+    <string name="empty_folder">빈 폴더</string>
+    <string name="expired">(만료됨)</string>
+    <string name="finish">완료</string>
+    <string name="force_stop">중지</string>
+    <string name="gallery_thumbnail_advice">갤러리 썸네일</string>
+    <string name="gallery_thumbnails">갤러리 썸네일</string>
+    <string name="game">게임</string>
+    <string name="grant">부여</string>
+    <string name="has_been_found">큰 파일 발견</string>
+    <string name="home_card_battery_saver">배터리 세이버</string>
+    <string name="home_card_phone_boost">폰 부스트</string>
+    <string name="home_wifi_new">신규</string>
+    <string name="image">이미지</string>
+    <string name="info_minus">-</string>
+    <string name="insecure_app">안전하지 않은 앱</string>
+    <string name="installed_app">설치된 앱</string>
+    <string name="junk_ad">광고 정크</string>
+    <string name="junk_adv">AD 정크</string>
+    <string name="junk_apk">APK 정크</string>
+    <string name="junk_apk_files">APK 파일</string>
+    <string name="junk_app_cache">앱 캐시</string>
+    <string name="junk_bigfile">큰 파일</string>
+    <string name="junk_cache">앱 캐시</string>
+    <string name="junk_can_direct_clean">편안하게 청소하세요</string>
+    <string name="junk_clean">정크 클린</string>
+    <string name="junk_file_removed">%1$s 정크 파일이 제거됨</string>
+    <string name="junk_large_files">큰 파일</string>
+    <string name="junk_list_summary">추천 최적화 아이템</string>
+    <string name="junk_memory_cache">메모리 캐시</string>
+    <string name="junk_more">더 보기</string>
+    <string name="junk_residual">언로드된 정크</string>
+    <string name="junk_size_summary">정크가 너무 많이 발견되었습니다</string>
+    <string name="junk_system">시스템 정크</string>
+    <string name="junk_system_cache">시스템 캐시</string>
+    <string name="junk_system_garbage">시스템 쓰레기</string>
+    <string name="junk_useless_apk">APK 파일</string>
+    <string name="large_file_cancel">취소</string>
+    <string name="large_file_clean">%1$s 청소</string>
+    <string name="large_file_cleaner">대용량 파일 정리</string>
+    <string name="large_file_date">날짜: </string>
+    <string name="large_file_delete">삭제</string>
+    <string name="large_file_delete_desc">선택한 파일을 삭제할 것인지 확인해주세요</string>
+    <string name="large_file_delete_title">선택한 파일 삭제</string>
+    <string name="large_file_path">경로: </string>
+    <string name="large_file_size">크기: </string>
+    <string name="large_file_view">보기</string>
+    <string name="log">로그</string>
+    <string name="memory_junk">메모리 쓰레기</string>
+    <string name="movies">영화</string>
+    <string name="network_quality">네트워크 품질</string>
+    <string name="network_test_awesome_">\"멋지다\"</string>
+    <string name="network_test_delay_speed">지연(ms)</string>
+    <string name="network_test_download_speed">다운로드(MB/초)</string>
+    <string name="network_test_excellent">우수</string>
+    <string name="network_test_good">좋음</string>
+    <string name="network_test_good_">\"양호\"</string>
+    <string name="network_test_great_">\"좋습니다\"</string>
+    <string name="network_test_pretty_good">매우 좋음</string>
+    <string name="network_test_slow">느림</string>
+    <string name="network_test_slow_">\"느림\"</string>
+    <string name="network_test_test_again">다시 테스트</string>
+    <string name="network_test_upload_speed">업로드(MB/s)</string>
+    <string name="no">아니오</string>
+    <string name="no_large_file_found">큰 파일을 찾을 수 없습니다!</string>
+    <string name="no_risk">위험 없음</string>
+    <string name="no_virus_found">발견된 위험이 없습니다</string>
+    <string name="notification_battery">배터리</string>
+    <string name="notification_boost">부스트</string>
+    <string name="notification_clean">청소</string>
+    <string name="notification_wifi">와이파이</string>
+    <string name="nuss_scan_complete_desc">너무 많은 정크 파일을 찾았습니다</string>
+    <string name="nuss_scanning_desc">휴대전화가 느리게 작동하고 있습니다</string>
+    <string name="ok">확인</string>
+    <string name="optimize">최적화</string>
+    <string name="optimized">최적화됨</string>
+    <string name="optimizing">최적화 중…</string>
+    <string name="other_junk">기타 쓰레기</string>
+    <string name="others">기타</string>
+    <string name="phone_boost">폰 부스트</string>
+    <string name="photo_clean">사진 정리</string>
+    <string name="privacy_policy">개인정보 보호정책</string>
+    <string name="protect_battery">배터리 보호</string>
+    <string name="recycle_bin_advice">삭제는 복원할 수 없습니다</string>
+    <string name="resisant_apps_found">%s 저항하는 앱 발견</string>
+    <string name="risk_found_and_fix">%1$s 개의 위험이 발견되었습니다. 지금 수정하세요</string>
+    <string name="rule_clean_audios">오디오</string>
+    <string name="rule_clean_files">파일</string>
+    <string name="rule_clean_images">이미지</string>
+    <string name="rule_clean_junk_files">캐시된 파일</string>
+    <string name="rule_clean_videos">동영상</string>
+    <string name="saver_success_desc">딥 세이버는 하단 목록을 클릭하세요</string>
+    <string name="scanning_">스캔 중…</string>
+    <string name="scanning_large_files">큰 파일을 스캔하는 중…</string>
+    <string name="scene_notification_battery_button">배터리 절약</string>
+    <string name="scene_notification_battery_sub_title">배터리:</string>
+    <string name="scene_notification_boost_sub_title">메모리:</string>
+    <string name="scene_notification_charge_battery_title">앱이 배터리를 소모하고 있습니다</string>
+    <string name="scene_notification_charging_button">빠른 충전</string>
+    <string name="scene_notification_clean_sub_title">저장 공간:</string>
+    <string name="scene_notification_cpu_button">쿨다운</string>
+    <string name="scene_notification_cpu_sub_title">온도:</string>
+    <string name="scene_notification_cpu_title">휴대폰이 과열되었습니다</string>
+    <string name="scene_notification_install_button">정리</string>
+    <string name="scene_notification_install_title">설치 패키지를 정리할 수 있습니다</string>
+    <string name="scene_notification_security_button">바이러스 검사</string>
+    <string name="scene_notification_uninstall_title">제거된 앱이 남긴 정크 청소</string>
+    <string name="scene_notification_wifi_button">와이파이 스캔</string>
+    <string name="scene_notification_wifi_title">새로운 Wi-Fi 네트워크에 연결됨</string>
+    <string name="scene_notification_wifi_title_second">Wi-Fi 네트워크에 연결됨</string>
+    <string name="scene_security_scan_tips">%1$s 일 동안 스캔 없음</string>
+    <string name="scenes_battery_tip">%1$s 앱이 배터리를 소모하고 있습니다</string>
+    <string name="scenes_charging_apps" translatable="false">%1$s 앱</string>
+    <string name="scenes_charging_consuming_battery">배터리를 소모하고 있습니다</string>
+    <string name="scenes_charging_tip">충전 중</string>
+    <string name="scenes_tempt_tip">폰이 %1$s 에서 과열되었습니다</string>
+    <string name="screenshots">스크린샷</string>
+    <string name="security_privacy">개인 정보 보호</string>
+    <string name="security_virus">바이러스 검사</string>
+    <string name="security_vulnerability">실시간 보호</string>
+    <string name="select_all">모두 선택</string>
+    <string name="setting_title">설정</string>
+    <string name="shielding_back_function_toast">프로그램 실행 중</string>
+    <string name="skip">건너뛰기</string>
+    <string name="speed_test">속도 테스트</string>
+    <string name="start">시작</string>
+    <string name="storage_clean">저장소 청소</string>
+    <string name="storage_permission_dialog_btn">확인</string>
+    <string name="storage_permission_dialog_file_safe">유용한 파일은 삭제하지 않습니다</string>
+    <string name="storage_permission_dialog_privacy">개인 정보 보호</string>
+    <string name="storage_permission_dialog_summary">휴대폰 정리를 위해 저장소 권한이 필요합니다</string>
+    <string name="storage_permission_dialog_title">필요한 권한</string>
+    <string name="storage_permission_guide">허용하려면 스위치를 클릭하세요</string>
+    <string name="submit">제출</string>
+    <string name="super_sb_setting_toast">"강제 종료" 버튼을 찾아 클릭하세요.</string>
+    <string name="system_cache">시스템 캐시</string>
+    <string name="temp_files">임시 파일</string>
+    <string name="terms_of_service">서비스 약관</string>
+    <string name="text_wifi_checking">확인 중…</string>
+    <string name="tiktok_clean">틱톡 청소</string>
+    <string name="title_junk_files">정크 파일</string>
+    <string name="title_more_space">여유 공간 확보</string>
+    <string name="upload_mb_s">업로드(MB/s)</string>
+    <string name="video">동영상</string>
+    <string name="virus">바이러스</string>
+    <string name="wechat">위챗</string>
+    <string name="whatsapp_clean">WhatsApp 정리</string>
+    <string name="wifi_activity_arp">ARP 보안</string>
+    <string name="wifi_activity_dns">DNS 상태 정상</string>
+    <string name="wifi_activity_network_normal">네트워크 정상</string>
+    <string name="wifi_activity_phishing">Wi-Fi 피싱 금지</string>
+    <string name="wifi_activity_ssl">SSL 보안</string>
+    <string name="wifi_activity_subtitle_detecting">Wi-Fi 보안 감지 중</string>
+    <string name="wifi_activity_subtitle_not_connected">Wi-Fi가 연결되지 않았습니다</string>
+    <string name="wifi_activity_title">Wi-Fi 감지</string>
+    <string name="wifi_not_conected">Wi-Fi가 연결되지 않았습니다</string>
+    <string name="wifi_optimized">최적화됨</string>
+    <string name="wifi_result_item_connected">Wi-Fi에 연결하셨습니다. Wi-Fi 보안 감지를 클릭하세요.</string>
+    <string name="wifi_result_item_not_connected">Wi-Fi 보안을 감지하고 위협으로부터 개인 정보를 보호하세요.</string>
+    <string name="wifi_result_risk_content">Wi-Fi 전환을 권장합니다.</string>
+    <string name="wifi_result_risk_title">%1$s 위험을 찾으세요.</string>
+    <string name="wifi_result_safe">와이파이는 안전합니다.</string>
+    <string name="wifi_security">와이파이 보안</string>
+    <string name="yes">예</string>
+    <string name="youtube_clean">유튜브 클린</string>
+</resources>
