@@ -43,3 +43,78 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
+// 添加学习
+// https://docs.gradle.org/current/userguide/writing_build_scripts.html
+def group1 = 'group1'
+def group2 = 'group2'
+def group3 = 'group3'
+
+4.times {counter->
+    tasks.register("task$counter") {
+        it.setGroup(group1)
+        it.doLast {
+            println("I'm task number $counter")
+        }
+    }
+}
+
+tasks.register('task-1') {
+    it.setGroup(group1)
+    it.dependsOn('task2', 'task3')
+}
+
+
+tasks.register('taskX') {
+    it.setGroup(group1)
+    it.dependsOn 'taskY'
+    it.doLast {
+        println 'taskX'
+    }
+}
+
+tasks.register('taskY') {
+    it.setGroup(group1)
+    it.doLast {
+        println 'taskY'
+    }
+}
+
+tasks.register('hello') {
+    it.doLast {
+        println('Hello world!')
+    }
+}
+tasks.named('hello') {
+    it.doFirst {
+        println('Hello Venus')
+    }
+}
+tasks.register('intro') {
+    it.dependsOn tasks.hello
+    it.doLast {
+        println "I'm Gradle"
+    }
+}
+
+//defaultTasks 'clean', 'run'
+
+tasks.named('clean') {
+    it.setGroup(group2)
+    it.doLast {
+        println('Default Cleaning')
+    }
+}
+
+tasks.register('run') {
+    it.setGroup(group2)
+    it.doLast {
+        println('Default Running')
+    }
+}
+
+tasks.register('other') {
+    it.setGroup(group2)
+    it.doLast {
+        println("I'm not a default task!")
+    }
+}
