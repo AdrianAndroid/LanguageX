@@ -431,62 +431,63 @@ task stringToExcel() {
  */
 task excelToValuesxx() {
     setGroup("excel_to_xml")
-    def excelPath = "/Users/apus/AndroidStudioProjects/LanguageX/excel/testexcel.xlsx"
-    def baseValueDir = "/Users/apus/AndroidStudioProjects/LanguageX/languagex/src/main/res"
+    doLast {
+        def excelPath = "/Users/apus/AndroidStudioProjects/LanguageX/excel/testexcel.xlsx"
 
-    // 读取Excel
-    Workbook workbook = WorkbookFactory.create(new File(excelPath))
-    def sheetCount = workbook.getNumberOfSheets()
-    println("sheetCount -> $sheetCount")
-    Sheet sheet = workbook.getSheetAt(0)
-    /**
-     * values-xx
-     * key - value
-     */
-    Map<String, Map<String, String>> map = new HashMap<>()
-    List<String> listValuesDir = new ArrayList<>(0)
-    for (i in 0..<sheet.size()) {
-        Row row = sheet.getRow(i)
-        if (i == 0) { // 语言文件夹名
-            listValuesDir = new ArrayList<>(row.size() - 1) // 第一列是key,所以不算第一排
-            for (j in 1..<row.size()) {
-                String cellString = row.getCell(j).getStringCellValue()
-                listValuesDir.add(cellString)
-                map.put(cellString, new HashMap<String, String>())
+        // 读取Excel
+        Workbook workbook = WorkbookFactory.create(new File(excelPath))
+        def sheetCount = workbook.getNumberOfSheets()
+        println("sheetCount -> $sheetCount")
+        Sheet sheet = workbook.getSheetAt(0)
+        /**
+         * values-xx
+         * key - value
+         */
+        Map<String, Map<String, String>> map = new HashMap<>()
+        List<String> listValuesDir = new ArrayList<>(0)
+        for (i in 0..<sheet.size()) {
+            Row row = sheet.getRow(i)
+            if (i == 0) { // 语言文件夹名
+                listValuesDir = new ArrayList<>(row.size() - 1) // 第一列是key,所以不算第一排
+                for (j in 1..<row.size()) {
+                    String cellString = row.getCell(j).getStringCellValue()
+                    listValuesDir.add(cellString)
+                    map.put(cellString, new HashMap<String, String>())
+                }
+            } else {
+                String key = row.getCell(0).getStringCellValue()
+                for (j in 0..<listValuesDir.size()) {
+                    String valueDirName = listValuesDir.get(j)
+                    int cellIndex = j+1
+                    String cellString = row.getCell(cellIndex).getStringCellValue()
+                    map.get(valueDirName).put(key, cellString) // get必须不为空
+                }
             }
-        } else {
-            String key = row.getCell(0).getStringCellValue()
-            for (j in 0..<listValuesDir.size()) {
-                String valueDirName = listValuesDir.get(j)
-                int cellIndex = j+1
-                String cellString = row.getCell(cellIndex).getStringCellValue()
-                map.get(valueDirName).put(key, cellString) // get必须不为空
+        }
+        println(map)
+
+
+        def orgRootPath = "/Users/apus/AndroidStudioProjects/LanguageX/languagex/src/main/res"
+        map.each { entry ->
+            def valueDirName = entry.key
+            File curFilePath = new File(orgRootPath, valueDirName)
+            curFilePath.mkdirs()
+            File xmlFilePath = new File(curFilePath, valueDirName + ".xml")
+            println("xml文件路径:" + xmlFilePath.getAbsolutePath())
+            Node orgNode
+            if (!xmlFilePath.exists()) {
+                xmlFilePath.createNewFile()
+                orgNode = createResourceNode()
+            } else {
+                orgNode = new XmlParser().parse(xmlFilePath) // 假定是完好的xml文件
             }
+            orgNode.children().clear()
+            entry.value.each { keyValEntry ->
+                Node node = createNode(keyValEntry.key, keyValEntry.value)
+                orgNode.children().add(node)
+            }
+            writeNode2Local(orgNode, xmlFilePath)
         }
-    }
-    println(map)
-
-
-    def orgRootPath = "/Users/apus/AndroidStudioProjects/LanguageX/languagex/src/main/res"
-    map.each { entry ->
-        def valueDirName = entry.key
-        File curFilePath = new File(orgRootPath, valueDirName)
-        curFilePath.mkdirs()
-        File xmlFilePath = new File(curFilePath, valueDirName + ".xml")
-        println("xml文件路径:" + xmlFilePath.getAbsolutePath())
-        Node orgNode
-        if (!xmlFilePath.exists()) {
-            xmlFilePath.createNewFile()
-            orgNode = createResourceNode()
-        } else {
-            orgNode = new XmlParser().parse(xmlFilePath) // 假定是完好的xml文件
-        }
-        orgNode.children().clear()
-        entry.value.each { keyValEntry ->
-            Node node = createNode(keyValEntry.key, keyValEntry.value)
-            orgNode.children().add(node)
-        }
-        writeNode2Local(orgNode, xmlFilePath)
     }
 }
 
