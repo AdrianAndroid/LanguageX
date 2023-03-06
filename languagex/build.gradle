@@ -1,4 +1,18 @@
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
+import org.apache.poi.ss.usermodel.WorkbookFactory
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation
+
+buildscript {
+    dependencies {
+        classpath 'org.codehaus.groovy:groovy-all:2.4.15'
+        classpath 'org.apache.poi:poi:4.1.2'
+        classpath 'org.apache.poi:poi-ooxml:4.1.2'
+    }
+}
+
 
 plugins {
     id 'com.android.library'
@@ -49,6 +63,10 @@ static def getValueName(Node node) {
     return node.attributes().get("name")
 }
 
+static def getValueValue(Node node) {
+    return node.value().getAt(0)
+}
+
 tasks.register('count') {
     it.setGroup(languageGroup)
     it.doLast {
@@ -70,6 +88,7 @@ task sortLanguageValues() {
 }
 
 def doSortLanguageValues() {
+
     Node basicNode = new XmlParser().parse(file(dirPath(basicPath)))
     // 找到所有的String node
     NodeList basicNodeList = (NodeList) basicNode.value()
@@ -161,11 +180,11 @@ def doSortLanguageValues() {
     writeNode2Local(basicNode, new File(dirPath(basicPath)))
 }
 
-static def createNode(String key, String value) {
+static Node createNode(String key, String value) {
     return new Node(null, "string", ["name": "$key"], "$value")
 }
 
-static def createResourceNode() {
+static Node createResourceNode() {
     return new Node(null, "resources")
 }
 
@@ -207,5 +226,272 @@ static def getNodeKey(Node node) {
     return key
 }
 
+/**
+ * 找到需要的文件
+ */
+task findStringXml() {
+    setGroup("xml")
+    doLast {
+        def rootPath = "/Users/apus/apus/TargetCleaner/app/build"
+        // 遍历所有的文件
+        File f = file(rootPath)
+        traverseFiles(f)
+    }
+}
+
+void traverseFiles(File f) {
+    if (f.isFile()) {
+        if (f.getName().endsWith(".xml")) {
+            println(f.getName() + " " + f.getAbsolutePath())
+        }
+    } else if (f.isDirectory()) {
+//        if (f.getAbsolutePath().contains("values-ar")) {
+//            println(f.getAbsolutePath())
+//        }
+        f.listFiles().each {
+            traverseFiles(it)
+        }
+    }
+}
+
+task readXmlString() {
+    setGroup("xml")
+    doLast {
+        def path = "/Users/apus/Downloads/BravoBooster/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml"
+        Node basicNode = new XmlParser().parse(file(path))
+        NodeList basicNodeList = (NodeList) basicNode.value()
+        HashMap<String, Object> map = new HashMap<>()
+        for (i in 0..<basicNodeList.size()) {
+            Node node = (Node) basicNodeList.get(i)
+            if ("string" == node.name()) {
+                map.put(getValueName(node), getValueValue(node))
+            }
+        }
+        //println(map)
+        map.each { entry ->
+            print(entry.key)
+            print(" ")
+            print(entry.value)
+            println()
+        }
+    }
+}
+
+/**
+ * 读取Excel
+ */
+task readExcel() {
+    setGroup("excel")
+    doLast {
+        def path = "/Users/apus/AndroidStudioProjects/LanguageX/excel/testexcel.xlsx"
+        Workbook workbook = WorkbookFactory.create(file(path))
+        def sheetCount = workbook.getNumberOfSheets()
+        println("sheetCount -> $sheetCount")
+        Sheet sheet = workbook.getSheetAt(0)
+        sheet.each { row ->
+            row.each { cell ->
+                print(cell.toString() + "  ")
+            }
+            println()
+        }
+    }
+}
+
+task writeExcel() {
+    setGroup("excel")
+    doLast {
+        def outputPath = "/Users/apus/AndroidStudioProjects/LanguageX/excel/writeexcel.xlsx"
+        Workbook workbook = new XSSFWorkbook()
+        Sheet sheet = workbook.createSheet("Example Sheet")
+        Row row0 = sheet.createRow(0)
+        row0.createCell(0).setCellValue("Name")
+        row0.createCell(1).setCellValue("Age")
+        Row row1 = sheet.createRow(1)
+        row1.createCell(0).setCellValue("Alice");
+        row1.createCell(1).setCellValue(30)
+        Row row2 = sheet.createRow(2)
+        row2.createCell(0).setCellValue("Bob")
+        row2.createCell(1).setCellValue(31)
+        FileOutputStream fileOut = new FileOutputStream(outputPath)
+        workbook.write(fileOut)
+        fileOut.close()
+    }
+}
+
+/**
+ * 打印出所有的values-xx文件夹
+ */
+task printAllValuesDir() {
+    setGroup("language")
+//    def path = "/Users/apus/Downloads/BravoBooster/app/build/intermediates/incremental/mergeDebugResources/merged.dir"
+//    file(path).eachFile { f->
+//        println(f.getName())
+//    }
+
+}
+
+/**
+ * 将xml文件读取到Map中
+ * @return
+ */
+private static Map<String, String> readXmlToMap(String path) {
+    //def path = "/Users/apus/Downloads/BravoBooster/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml"
+    Node basicNode = new XmlParser().parse(new File(path))
+    NodeList basicNodeList = (NodeList) basicNode.value()
+    Map<String, Object> map = new HashMap<>()
+    for (i in 0..<basicNodeList.size()) {
+        Node node = (Node) basicNodeList.get(i)
+        if ("string" == node.name()) {
+            Object key = getValueName(node)
+            Object value = getValueValue(node)
+            if (key instanceof String && value instanceof String) {
+                map.put(key, value)
+            } else {
+                println("不符合要求 key=$key value=$value")
+            }
+        }
+    }
+    return map
+    //println(map)
+//    map.each { entry ->
+//        print(entry.key)
+//        print(" ")
+//        print(entry.value)
+//        println()
+//    }
+}
+
+/**
+ * 获取路径
+ * @return
+ */
+private static File stringToExcel_GetStringPath(String basePath, String valueDir, String xmlName) {
+    File valueDirFile = new File(basePath, valueDir)
+    File valueXmlFile = new File(valueDirFile, xmlName)
+    println(valueXmlFile.getAbsolutePath())
+    return valueXmlFile
+}
+
+
+task stringToExcel() {
+    setGroup("xml_to_excel")
+    doLast {
+        def outputPath = "/Users/apus/AndroidStudioProjects/LanguageX/excel/writeexcel.xlsx"
+        def basePath = "/Users/apus/Downloads/BravoBooster/app/build/intermediates/incremental/mergeDebugResources/merged.dir"
+        def valuesXXDirs = ["values-ar", "values-de", "values-es", "values-fr", "values-in", "values-it", "values-ja", "values-ko", "values-ms", "values-pt", "values-th"]
+        // 先读取基准values文件夹
+        Map<String, String> valuesMap = readXmlToMap(stringToExcel_GetStringPath(basePath, "values", "values.xml").getAbsolutePath())
+        //    valuesMap.each {
+        //        println(it.key + " --> " + it.value)
+        //    }
+        Map<String, Map<String, String>> mapValuesMap = new HashMap<>()
+        valuesXXDirs.each { value_xx ->
+            mapValuesMap.put(value_xx, readXmlToMap(stringToExcel_GetStringPath(basePath, value_xx, value_xx + ".xml").getAbsolutePath()))
+        }
+
+        Set<String> set = valuesMap.keySet()
+        List<String> keySort = set.toList().sort()
+
+        // 创建一个表格,写入数据
+        Workbook workbook = new XSSFWorkbook()
+        Sheet sheet = workbook.createSheet("lanugage")
+        // key values values-de values-es values-fr
+        int rowIndex = 0  // 横排索引
+        int cellIndex = 0 // 竖排索引
+
+        def row0 = sheet.createRow(rowIndex++)
+        row0.createCell(cellIndex++).setCellValue("key")
+        row0.createCell(cellIndex++).setCellValue("values")
+        valuesXXDirs.each { valueDir ->
+            row0.createCell(cellIndex++).setCellValue(valueDir)
+        }
+        keySort.each { key -> // 列,往走
+            cellIndex = 0 // 每次从头开始
+            def row = sheet.createRow(rowIndex++)
+            // key
+            row.createCell(cellIndex++).setCellValue(key)
+            // values
+            row.createCell(cellIndex++).setCellValue(valuesMap.getOrDefault(key, ""))
+            // values-xxx
+            valuesXXDirs.each { valueDir ->
+                Map<String, String> map = mapValuesMap.get(valueDir)
+                row.createCell(cellIndex++).setCellValue(map.getOrDefault(key, ""))
+            }
+        }
+
+        FileOutputStream fileOut = new FileOutputStream(outputPath)
+        workbook.write(fileOut)
+        fileOut.close()
+        workbook.close()
+    }
+}
+
+/**
+ * 将excel的值生成各自目录下的文件
+ */
+task excelToValuesxx() {
+    setGroup("excel_to_xml")
+    def excelPath = "/Users/apus/AndroidStudioProjects/LanguageX/excel/testexcel.xlsx"
+    def baseValueDir = "/Users/apus/AndroidStudioProjects/LanguageX/languagex/src/main/res"
+
+    // 读取Excel
+    Workbook workbook = WorkbookFactory.create(new File(excelPath))
+    def sheetCount = workbook.getNumberOfSheets()
+    println("sheetCount -> $sheetCount")
+    Sheet sheet = workbook.getSheetAt(0)
+    /**
+     * values-xx
+     * key - value
+     */
+    Map<String, Map<String, String>> map = new HashMap<>()
+    List<String> listValuesDir = new ArrayList<>(0)
+    for (i in 0..<sheet.size()) {
+        Row row = sheet.getRow(i)
+        if (i == 0) { // 语言文件夹名
+            listValuesDir = new ArrayList<>(row.size() - 1) // 第一列是key,所以不算第一排
+            for (j in 1..<row.size()) {
+                String cellString = row.getCell(j).getStringCellValue()
+                listValuesDir.add(cellString)
+                map.put(cellString, new HashMap<String, String>())
+            }
+        } else {
+            String key = row.getCell(0).getStringCellValue()
+            for (j in 0..<listValuesDir.size()) {
+                String valueDirName = listValuesDir.get(j)
+                int cellIndex = j+1
+                String cellString = row.getCell(cellIndex).getStringCellValue()
+                map.get(valueDirName).put(key, cellString) // get必须不为空
+            }
+        }
+    }
+    println(map)
+
+
+    def orgRootPath = "/Users/apus/AndroidStudioProjects/LanguageX/languagex/src/main/res"
+    map.each { entry ->
+        def valueDirName = entry.key
+        File curFilePath = new File(orgRootPath, valueDirName)
+        curFilePath.mkdirs()
+        File xmlFilePath = new File(curFilePath, valueDirName + ".xml")
+        println("xml文件路径:" + xmlFilePath.getAbsolutePath())
+        Node orgNode
+        if (!xmlFilePath.exists()) {
+            xmlFilePath.createNewFile()
+            orgNode = createResourceNode()
+        } else {
+            orgNode = new XmlParser().parse(xmlFilePath) // 假定是完好的xml文件
+        }
+        orgNode.children().clear()
+        entry.value.each { keyValEntry ->
+            Node node = createNode(keyValEntry.key, keyValEntry.value)
+            orgNode.children().add(node)
+        }
+        writeNode2Local(orgNode, xmlFilePath)
+    }
+}
+
+
 dependencies {
+    implementation 'org.apache.poi:poi:4.1.2'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
 }
