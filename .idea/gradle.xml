@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/languagex" />
+            <option value="$PROJECT_DIR$/translate" />
           </set>
         </option>
       </GradleProjectSettings>

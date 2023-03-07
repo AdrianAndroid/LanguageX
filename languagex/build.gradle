@@ -432,7 +432,7 @@ task stringToExcel() {
 task excelToValuesxx() {
     setGroup("excel_to_xml")
     doLast {
-        def excelPath = "/Users/apus/AndroidStudioProjects/LanguageX/excel/testexcel.xlsx"
+        def excelPath = "/Users/apus/AndroidStudioProjects/LanguageX/excel/translate-output.xlsx"
 
         // 读取Excel
         Workbook workbook = WorkbookFactory.create(new File(excelPath))
@@ -496,3 +496,6 @@ dependencies {
     implementation 'org.apache.poi:poi:4.1.2'
     implementation 'org.apache.poi:poi-ooxml:4.1.2'
 }
+
+
+// 读取Excel,并翻译其他语言

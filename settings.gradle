@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "LanguageX"
 include ':app'
 include ':languagex'
+include ':translate'
